@@ -22,33 +22,35 @@ namespace ProjetoModeloDDD.MVC.Controllers
             return View(clienteViewModel);
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+             return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ClienteViewModel cliente)
+        {
+            if (ModelState.IsValid) 
+            {
+                var clienteDomain = Mapper.Map<ClienteViewModel, Cliente>(cliente);
+                _clienteRepository.Add(clienteDomain);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(cliente);
+        }
+
         // GET: Clientes/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Clientes/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Clientes/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+          
 
         // GET: Clientes/Edit/5
         public ActionResult Edit(int id)

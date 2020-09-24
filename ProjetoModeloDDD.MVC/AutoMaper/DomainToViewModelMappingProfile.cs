@@ -12,7 +12,7 @@ namespace ProjetoModeloDDD.MVC.AutoMaper
     {
         public override string ProfileName
         {
-            get { return "ViewModelToDomainMappingProfile"; }
+            get { return "ViewModelToDomainMappings"; }
         }
 
         protected override void Configure() 
