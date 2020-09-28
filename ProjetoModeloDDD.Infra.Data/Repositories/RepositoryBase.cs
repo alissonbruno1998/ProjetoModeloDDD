@@ -1,4 +1,4 @@
-﻿using ProjetoModeloDDD.Domain.Interfaces;
+﻿using ProjetoModeloDDD.Domain.Interfaces.Repositories;
 using ProjetoModeloDDD.Infra.Data.Context;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace ProjetoModeloDDD.Infra.Data.Repositories
             Db.SaveChanges();
         }
 
-        public TEntity GetEntity(int id)
+        public TEntity GetById(int id)
         {
             return Db.Set<TEntity>().Find(id);
         }
