@@ -30,6 +30,22 @@ namespace ProjetoModeloDDD.MVC.Controllers
             return View(clienteViewModel);
         }
 
+        public ActionResult Especiais() 
+        {
+            var clienteViewModel = Mapper.Map<IEnumerable<Cliente>, IEnumerable<ClienteViewModel>>(_clienteApp.ObterClientesEspeciais());
+
+            return View(clienteViewModel);
+        }
+
+        // GET: Clientes/Details/5
+        public ActionResult Details(int id)
+        {
+            var cliente = _clienteApp.GetById(id);
+            var clienteViewModel = Mapper.Map<Cliente, ClienteViewModel>(cliente);
+            
+            return View(clienteViewModel);
+        }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -52,56 +68,53 @@ namespace ProjetoModeloDDD.MVC.Controllers
             return View(cliente);
         }
 
-        // GET: Clientes/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-          
+         
 
         // GET: Clientes/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var cliente = _clienteApp.GetById(id);
+            var clienteViewModel = Mapper.Map<Cliente, ClienteViewModel>(cliente);
+
+            return View(clienteViewModel);
         }
 
         // POST: Clientes/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ClienteViewModel cliente)
         {
-            try
+            if (ModelState.IsValid) 
             {
-                // TODO: Add update logic here
+                var clienteDomain = Mapper.Map<ClienteViewModel, Cliente>(cliente);
+                _clienteApp.Update(clienteDomain);
 
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+          return View(cliente);
+
         }
 
         // GET: Clientes/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var cliente = _clienteApp.GetById(id);
+            var clienteViewModel = Mapper.Map<Cliente, ClienteViewModel>(cliente);
+            
+            return View(clienteViewModel);
         }
 
         // POST: Clientes/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+         
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var cliente = _clienteApp.GetById(id);
+            _clienteApp.Remove(cliente);
+           
+            return RedirectToAction("Index");
+            
         }
     }
 }
